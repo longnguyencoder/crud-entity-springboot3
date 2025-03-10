@@ -5,9 +5,9 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 public class UserCreationRequest {
-    @Size(min = 2, message = "tên phải có tổi thiểu 2 ký tự")
+    @Size(min = 2, message = "USERNAME_INVALID")
     private String  username;
-    @Size(min = 8, message = " mật khẩu phải có tổi thiểu 8 kí tu")
+    @Size(min = 8, message = "PASSWORD_INVALID")
     private String  password;
     private String  firstname;
     private String  lastname;

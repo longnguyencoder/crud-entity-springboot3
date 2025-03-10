@@ -3,6 +3,8 @@ package com.example.Ecommerce.service;
 import com.example.Ecommerce.dto.request.UserCreationRequest;
 import com.example.Ecommerce.dto.request.UserUpdateRequest;
 import com.example.Ecommerce.entity.User;
+import com.example.Ecommerce.exception.AppException;
+import com.example.Ecommerce.exception.ErrorCode;
 import com.example.Ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,7 @@ public class UserService {
         User user = new User();  // tạo một đối tượng User
 
         if (userRepository.existsByUsername(request.getUsername()))
-            throw  new RuntimeException("user exits");
+            throw  new AppException(ErrorCode.USER_EXISTS);
 //        set dữ liê vào đối tượng mapdata
         user.setUsername(request.getUsername());
         user.setPassword(request.getPassword());

@@ -1,5 +1,6 @@
 package com.example.Ecommerce.controller;
 
+import com.example.Ecommerce.dto.request.ApiResponse;
 import com.example.Ecommerce.dto.request.UserCreationRequest;
 import com.example.Ecommerce.dto.request.UserUpdateRequest;
 import com.example.Ecommerce.entity.User;
@@ -19,8 +20,11 @@ public class UserController {
     private UserService userService;
 // tạo mới một user
     @PostMapping()
-    User createUser(@RequestBody @Valid UserCreationRequest request) {
-       return userService.createUser(request);
+   ApiResponse <User> createUser(@RequestBody @Valid UserCreationRequest request) {
+        ApiResponse<User> apiResponse = new ApiResponse<>();
+
+        apiResponse.setResult(userService.createUser(request));
+       return apiResponse;
     }
 //    lấy tất cả các users
     @GetMapping()
