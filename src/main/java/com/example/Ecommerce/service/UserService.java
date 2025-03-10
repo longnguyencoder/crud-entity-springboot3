@@ -16,6 +16,9 @@ public class UserService {
 
     public User createUser(UserCreationRequest request) {
         User user = new User();  // tạo một đối tượng User
+
+        if (userRepository.existsByUsername(request.getUsername()))
+            throw  new RuntimeException("user exits");
 //        set dữ liê vào đối tượng mapdata
         user.setUsername(request.getUsername());
         user.setPassword(request.getPassword());

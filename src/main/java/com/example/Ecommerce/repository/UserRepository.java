@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository  extends JpaRepository<User,String> {
 //    JpaRepository là repository làm việc với entity j và khai báo kiểu dữ liệu cho nó
 //     ở đây làm việc với user và kiểu dữ liệu là String
+    boolean existsByUsername(String username);
 
 
 }

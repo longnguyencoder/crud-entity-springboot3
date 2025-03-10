@@ -1,9 +1,13 @@
 package com.example.Ecommerce.dto.request;
 
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class UserCreationRequest {
+    @Size(min = 2, message = "tên phải có tổi thiểu 2 ký tự")
     private String  username;
+    @Size(min = 8, message = " mật khẩu phải có tổi thiểu 8 kí tu")
     private String  password;
     private String  firstname;
     private String  lastname;
