@@ -6,7 +6,8 @@ public enum ErrorCode {
     USER_EXISTS(1001,"user existed"),
     USERNAME_INVALID(1002,"username phải có ừ 2 kí tự"),
     PASSWORD_INVALID(1003,"password phải có tối thiểu 8 kí tự"),
-    INVALID_KEY(1004,"Invalid message Key"),;
+    INVALID_KEY(1004,"Invalid message Key"),
+    USER_NOT_EXITS(1005,"Invalid message Key");
     private int code;
     private String message;
 

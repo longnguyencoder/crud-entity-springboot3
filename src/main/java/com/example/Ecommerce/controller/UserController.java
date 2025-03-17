@@ -3,6 +3,7 @@ package com.example.Ecommerce.controller;
 import com.example.Ecommerce.dto.request.ApiResponse;
 import com.example.Ecommerce.dto.request.UserCreationRequest;
 import com.example.Ecommerce.dto.request.UserUpdateRequest;
+import com.example.Ecommerce.dto.response.UserResponse;
 import com.example.Ecommerce.entity.User;
 import com.example.Ecommerce.service.UserService;
 import jakarta.validation.Valid;
@@ -20,34 +21,39 @@ public class UserController {
     private UserService userService;
 // tạo mới một user
     @PostMapping()
-   ApiResponse <User> createUser(@RequestBody @Valid UserCreationRequest request) {
-        ApiResponse<User> apiResponse = new ApiResponse<>();
-
-        apiResponse.setResult(userService.createUser(request));
-       return apiResponse;
+   ApiResponse <UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.createUser(request))
+                .build();
     }
 //    lấy tất cả các users
-    @GetMapping()
-    List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
+    @GetMapping
+    ApiResponse<List<UserResponse>> getUsers(){
+    return ApiResponse.<List<UserResponse>>builder()
+            .result(userService.getUsers())
+            .build();
+}
 
 //     lấy Users theo id
-    @GetMapping("/{userId}")
-    User getUser(@PathVariable("userId") String  userId) {
-//        gọi xuống service tầng dưới của controller
-        return userService.getUserById(userId);
-    }
-//    update thông tin user
+            @GetMapping("/{userId}")
+                ApiResponse<UserResponse> getUser(@PathVariable("userId") String userId){
+                return ApiResponse.<UserResponse>builder()
+                    .result(userService.getUser(userId))
+                     .build();
+}
     @PutMapping("/{userId}")
-    User updateUser(@PathVariable String userId,@RequestBody UserUpdateRequest request) {
-        return userService.UpdateUser(userId, request);
+    ApiResponse<UserResponse> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request){
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.updateUser(userId, request))
+                .build();
     }
-//    xóa tất User theo id
+
     @DeleteMapping("/{userId}")
-    String deleteUser(@PathVariable String userId) {
+    ApiResponse<String> deleteUser(@PathVariable String userId){
         userService.deleteUser(userId);
-        return "user has been deleted";
+        return ApiResponse.<String>builder()
+                .result("User has been deleted")
+                .build();
     }
 
 }
