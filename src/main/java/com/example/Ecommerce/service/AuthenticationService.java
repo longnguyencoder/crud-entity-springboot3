@@ -69,18 +69,21 @@ public class AuthenticationService {
                 throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
         var token = genarateToken(request.getUsername());
+        log.info("JWT Token: {}", token);
 
         return AuthenticationResponse.builder()
                 .Token(token)
                 .authenticated(true)
                 .build();
     }
+
+
     private String genarateToken(String username) {
-        JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
+        JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(username)
-                .issuer("zanlong.com")
+                .issuer("devteria.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
