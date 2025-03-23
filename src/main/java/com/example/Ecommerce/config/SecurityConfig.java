@@ -1,5 +1,6 @@
 package com.example.Ecommerce.config;
 
+import com.example.Ecommerce.enums.Roles;
 import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
