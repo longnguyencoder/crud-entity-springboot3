@@ -69,11 +69,21 @@ public class UserService {
                 .map(userMapper::toUserResponse).toList();
     }
 
+
     @PostAuthorize("returnObject.username == authentication.name")
     public UserResponse getUser(String id){
         log.info("getUser({})", id);
         return userMapper.toUserResponse(userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITS)));
+    }
+    public UserResponse getMyInfo(){
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        User user = userRepository.findByUsername(name).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_EXITS));
+
+        return userMapper.toUserResponse(user);
     }
 }
 

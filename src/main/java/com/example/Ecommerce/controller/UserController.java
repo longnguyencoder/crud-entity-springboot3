@@ -29,12 +29,12 @@ public class UserController {
                 .result(userService.createUser(request))
                 .build();
     }
-//    @GetMapping("/myInfo")
-//    ApiResponse<UserResponse> getMyInfo(){
-//        return ApiResponse.<UserResponse>builder()
-//                .result(userService.getMyInfo())
-//                .build();
-//    }
+    @GetMapping("/myInfo")
+    ApiResponse<UserResponse> getMyInfo(){
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.getMyInfo())
+                .build();
+    }
 //    lấy tất cả các users
     @GetMapping
     ApiResponse<List<UserResponse>> getUsers(){
