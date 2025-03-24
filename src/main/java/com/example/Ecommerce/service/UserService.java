@@ -3,6 +3,7 @@ package com.example.Ecommerce.service;
 import com.example.Ecommerce.dto.request.UserCreationRequest;
 import com.example.Ecommerce.dto.request.UserUpdateRequest;
 import com.example.Ecommerce.dto.response.UserResponse;
+import com.example.Ecommerce.entity.Role;
 import com.example.Ecommerce.entity.User;
 import com.example.Ecommerce.enums.Roles;
 import com.example.Ecommerce.exception.AppException;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -33,17 +35,16 @@ public class UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
 
-    public UserResponse createUser(UserCreationRequest request){
-        if (userRepository.existsByUsername(request.getUsername()))
-            throw new AppException(ErrorCode.USER_EXISTS);
+    public UserResponse createUser(UserCreationRequest request) {
+        User user = new User();
 
-        User user = userMapper.toUser(request);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        // Thay vì HashSet<String>, hãy tạo một Set<Role>
+        Set<Role> roles = new HashSet<>();
+        Role userRole = new Role();
+        userRole.setName(Roles.USER.name()); // Đặt tên Role
+//        roles.add(userRole); // Thêm vào danh sách roles
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Roles.USER.name());
-
-        user.setRoles(roles);
+        user.setRoles(roles); // Gán danh sách roles đúng kiểu dữ liệu
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
