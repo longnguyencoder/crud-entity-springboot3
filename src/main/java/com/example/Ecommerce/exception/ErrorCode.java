@@ -14,7 +14,7 @@ public enum ErrorCode {
     USERNAME_INVALID(1002,"username phải có ừ 2 kí tự",HttpStatus.BAD_REQUEST),
     PASSWORD_INVALID(1003,"password phải có tối thiểu 8 kí tự",HttpStatus.BAD_REQUEST),
     INVALID_KEY(1004,"Invalid message Key",HttpStatus.BAD_REQUEST),
-    USER_NOT_EXITS(1005,"Invalid message Key",HttpStatus.NOT_FOUND),
+    USER_NOT_EXITS(1005,"User not existed",HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1006,"UNAUTHENTICATED",HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),;
     private int code;
