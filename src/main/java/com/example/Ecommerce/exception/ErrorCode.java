@@ -16,7 +16,8 @@ public enum ErrorCode {
     INVALID_KEY(1004,"Invalid message Key",HttpStatus.BAD_REQUEST),
     USER_NOT_EXITS(1005,"User not existed",HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1006,"UNAUTHENTICATED",HttpStatus.UNAUTHORIZED),
-    UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),;
+    UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
+    INVALID_DOB(1008, "Invalid date of birth", HttpStatus.BAD_REQUEST),;
     private int code;
     private String message;
     private HttpStatusCode httpStatusCode;

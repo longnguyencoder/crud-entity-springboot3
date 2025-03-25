@@ -5,7 +5,7 @@ import com.example.Ecommerce.dto.request.UserUpdateRequest;
 import com.example.Ecommerce.dto.response.UserResponse;
 import com.example.Ecommerce.entity.Role;
 import com.example.Ecommerce.entity.User;
-import com.example.Ecommerce.enums.Roles;
+import  com.example.Ecommerce.enums.Roles;
 import com.example.Ecommerce.exception.AppException;
 import com.example.Ecommerce.exception.ErrorCode;
 import com.example.Ecommerce.mapper.UserMapper;
@@ -38,16 +38,17 @@ public class UserService {
     PasswordEncoder passwordEncoder;
     RoleRepository roleRepository;
 
-    public UserResponse createUser(UserCreationRequest request) {
-        User user = new User();
+    public UserResponse createUser(UserCreationRequest request){
+        if (userRepository.existsByUsername(request.getUsername()))
+            throw new AppException(ErrorCode.USER_EXISTS);
 
-        // Thay vì HashSet<String>, hãy tạo một Set<Role>
-        Set<Role> roles = new HashSet<>();
-        Role userRole = new Role();
-        userRole.setName(Roles.USER.name()); // Đặt tên Role
-//        roles.add(userRole); // Thêm vào danh sách roles
+        User user = userMapper.toUser(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        user.setRoles(roles); // Gán danh sách roles đúng kiểu dữ liệu
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Roles.USER.name());
+
+//         user.setRoles(roles);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
