@@ -78,7 +78,6 @@ public class AuthenticationService {
                 .authenticated(true)
                 .build();
     }
-
     private String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
