@@ -20,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 import javax.crypto.spec.SecretKeySpec;
+import java.util.Arrays;
 
 
 @Configuration
@@ -36,10 +37,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        System.out.println("PUBLIC_ENDPOINTS: " + Arrays.toString(PUBLIC_ENDPOINTS));
         httpSecurity.authorizeHttpRequests(request ->
-                request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
-                        .anyRequest().authenticated());
-
+                        request
+                                .requestMatchers(HttpMethod.POST, "/auth/token").permitAll()  // Bỏ qua kiểm tra OAuth2 cho API này
+                                .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+                                .anyRequest().authenticated()
+        );
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer ->
                                 jwtConfigurer.decoder(jwtDecoder())

@@ -31,6 +31,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -59,20 +60,21 @@ public class AuthenticationService {
                 .valid(verified && expiryTime.after(new Date()))
                 .build();
     }
-
+    private final PasswordEncoder passwordEncoder; // Inject từ Spring
     public AuthenticationResponse authenticate(AuthenticationRequest request){
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        log.info("🛠️ Start authentication for user: {}", request.getUsername());
+
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITS));
 
         boolean authenticated = passwordEncoder.matches(request.getPassword(),
                 user.getPassword());
-
+        log.info("Password match result: {}", authenticated);
         if (!authenticated)
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
         var token = generateToken(user);
-
+        log.info("Generated token for user: {}", user.getUsername());
         return AuthenticationResponse.builder()
                 .Token(token)
                 .authenticated(true)
@@ -88,6 +90,7 @@ public class AuthenticationService {
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
+                .jwtID(UUID.randomUUID().toString())
                 .claim("scope", buildScope(user))
                 .build();
 
