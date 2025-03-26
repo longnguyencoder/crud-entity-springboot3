@@ -3,6 +3,7 @@ package com.example.Ecommerce.controller;
 import com.example.Ecommerce.dto.request.ApiResponse;
 import com.example.Ecommerce.dto.request.AuthenticationRequest;
 import com.example.Ecommerce.dto.request.IntrospectRequest;
+import com.example.Ecommerce.dto.request.LogoutRequest;
 import com.example.Ecommerce.dto.response.AuthenticationResponse;
 import com.example.Ecommerce.dto.response.IntrospectResponse;
 import com.example.Ecommerce.service.AuthenticationService;
@@ -41,6 +42,13 @@ public class AuthenticationController {
         var result = authenticationService.introspect(request);
         return ApiResponse.<IntrospectResponse>builder()
                 .result(result)
+                .build();
+    }
+    @PostMapping("/logout")
+    ApiResponse<Void> logout(@RequestBody LogoutRequest request)
+            throws ParseException, JOSEException {
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder()
                 .build();
     }
 }
